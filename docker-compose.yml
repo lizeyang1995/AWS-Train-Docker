@@ -1,16 +1,19 @@
-version: '2'
+version: '3'
 services:
   mysql:
     container_name: mysql
     image: mysql:5.7
+    restart: always
     environment:
+      MYSQL_DATABASE: docker-train-db
       MYSQL_ROOT_PASSWORD: Aa1234567
       MYSQL_ROOT_HOST: '%'
     ports:
       - "33061:3306"
     volumes:
       - "./MysqlConfiguration/db:/var/lib/mysql"
-      - "./MysqlConfiguration/init:/docker-entrypoint-initdb.d/"
+    networks: 
+      - aws-train-backend
   backend:
     container_name: backend
     restart: always
@@ -21,7 +24,10 @@ services:
       - "8080:8080"
     depends_on: 
       - mysql
-      - nginx
+      - redis
+    networks: 
+      - aws-train-backend
+      - aws-train-front
   redis:
     container_name: redis
     build:
@@ -34,6 +40,8 @@ services:
         - "./RedisConfiguration/redis/redis.conf:/etc/redis/redis.conf"
     restart: always
     command: redis-server /etc/redis/redis.conf
+    networks: 
+      - aws-train-backend
   nginx:
     container_name: nginx
     image: nginx:1.13
@@ -43,3 +51,10 @@ services:
       - 443:443
     volumes:
       - ./NginxConfiguration/conf.d:/etc/nginx/conf.d
+    networks:
+      - aws-train-front
+networks:
+    aws-train-front:
+      driver: bridge
+    aws-train-backend:
+      driver: bridg
