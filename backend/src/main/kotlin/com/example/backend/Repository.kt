@@ -1,7 +1,7 @@
 package com.example.backend
 
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 
-interface Repository : CrudRepository<User, Long> {
-    override fun findAll(): Iterable<User>
+interface Repository : JpaRepository<User, Long> {
+    override fun findAll(): MutableList<User>
 }

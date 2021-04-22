@@ -17,9 +17,7 @@ services:
   backend:
     container_name: backend
     restart: always
-    build:
-      context: ./
-      dockerfile: ./backend/Dockerfile
+    image: lizeyang1995/docker-train-backend:2.0
     ports:
       - "8080:8080"
     depends_on: 
@@ -31,7 +29,7 @@ services:
   redis:
     container_name: redis
     build:
-      context: ./
+      context: ./RedisConfiguration
       dockerfile: ./RedisConfiguration/Dockerfile
     ports:
         - "63791:6379"
@@ -57,4 +55,4 @@ networks:
     aws-train-front:
       driver: bridge
     aws-train-backend:
-      driver: bridg
+      driver: bridge
