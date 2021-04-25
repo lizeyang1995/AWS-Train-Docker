@@ -28,9 +28,7 @@ services:
       - aws-train-front
   redis:
     container_name: redis
-    build:
-      context: ./RedisConfiguration
-      dockerfile: ./RedisConfiguration/Dockerfile
+    image: "redis:alpine"
     ports:
         - "63791:6379"
     volumes:
