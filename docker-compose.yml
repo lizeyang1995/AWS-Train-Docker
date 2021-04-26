@@ -49,6 +49,8 @@ services:
       - ./NginxConfiguration/conf.d:/etc/nginx/conf.d
     networks:
       - aws-train-front
+    depends_on:
+      - backend
 networks:
     aws-train-front:
       driver: bridge
